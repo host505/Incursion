@@ -650,13 +650,13 @@ class tvshows:
     def imdb_person_list(self, url):
         try:
             result = client.request(url)
-            items = client.parseDOM(result, 'tr', attrs = {'class': '.+? detailed'})
+            items = client.parseDOM(result, 'div', attrs = {'class': '.+? mode-detail'}
         except:
             return
 
         for item in items:
             try:
-                name = client.parseDOM(item, 'a', ret='title')[0]
+                name = client.parseDOM(item, 'img', ret='alt')[0]
                 name = client.replaceHTMLCodes(name)
                 name = name.encode('utf-8')
 
@@ -667,7 +667,7 @@ class tvshows:
                 url = url.encode('utf-8')
 
                 image = client.parseDOM(item, 'img', ret='src')[0]
-                if not ('._SX' in image or '._SY' in image): raise Exception()
+                # if not ('._SX' in image or '._SY' in image): raise Exception()
                 image = re.sub('(?:_SX|_SY|_UX|_UY|_CR|_AL)(?:\d+|_).+?\.', '_SX500.', image)
                 image = client.replaceHTMLCodes(image)
                 image = image.encode('utf-8')

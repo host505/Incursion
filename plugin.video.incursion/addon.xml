@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-<addon id="plugin.video.incursion" version="0.1.13" name="Incursion" provider-name="Incursion">
+<addon id="plugin.video.incursion" version="0.1.17" name="Incursion" provider-name="Incursion">
 	<requires>
 		<import addon="xbmc.python" version="2.19.0" />
 		<import addon="script.module.incursion" />
@@ -29,13 +29,13 @@
     			<screenshot>resources/screenshots/screenshot-02.jpg</screenshot>
     			<screenshot>resources/screenshots/screenshot-03.jpg</screenshot>
 		</assets>
-		<news>v0.1.13 (Feb-2018)
-		- Re-added Filepursuit scraper
-		- Changes to Furk Scraper - better link identification
-		- Moved Away from TVA URLResolver to Jsergios ResolveURL
-		- Fixed 24 hour delay option
-		- Removed URLResolver from Repo
-		- Removed BeautifulSoup from Repo
+		<news>
+v0.1.17 (APR-2018)
+Even more Scraper Fixes
+CFSCRAPE Fix
+Moderator Disabled
+Fixed Trakt On Deck Magical Dissapearing Act
+Fixed search issue caused by character accents
 		</news>
 	</extension>
 </addon>

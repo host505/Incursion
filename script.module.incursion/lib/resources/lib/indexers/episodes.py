@@ -35,9 +35,6 @@ params = dict(urlparse.parse_qsl(sys.argv[2].replace('?',''))) if len(sys.argv) 
 
 action = params.get('action')
 
-control.moderator()
-
-
 class seasons:
     def __init__(self):
         self.list = []
@@ -555,7 +552,7 @@ class episodes:
         self.progress_link = 'http://api.trakt.tv/users/me/watched/shows'
         self.hiddenprogress_link = 'http://api.trakt.tv/users/hidden/progress_watched?limit=1000&type=show'
         self.calendar_link = 'http://api.tvmaze.com/schedule?date=%s'
-
+        self.onDeck_link = 'http://api.trakt.tv/sync/playback/episodes?extended=full&limit=10'
         self.traktlists_link = 'http://api.trakt.tv/users/me/lists'
         self.traktlikedlists_link = 'http://api.trakt.tv/users/likes/lists?limit=1000000'
         self.traktlist_link = 'http://api.trakt.tv/users/%s/lists/%s/items'
@@ -584,11 +581,17 @@ class episodes:
 
     def calendar(self, url):
         try:
+
             try: url = getattr(self, url + '_link')
             except: pass
 
+            if self.trakt_link in url and url == self.onDeck_link:
+                self.blist = cache.get(self.trakt_episodes_list, 720, url, self.trakt_user, self.lang)
+                self.list = []
+                self.list = cache.get(self.trakt_episodes_list, 0, url, self.trakt_user, self.lang)
+                self.list = self.list[::-1]
 
-            if self.trakt_link in url and url == self.progress_link:
+            elif self.trakt_link in url and url == self.progress_link:
                 self.blist = cache.get(self.trakt_progress_list, 720, url, self.trakt_user, self.lang)
                 self.list = []
                 self.list = cache.get(self.trakt_progress_list, 0, url, self.trakt_user, self.lang)
@@ -710,6 +713,9 @@ class episodes:
             itemlist = []
             items = trakt.getTraktAsJson(u)
         except:
+            print("Unexpected error in info builder script:", sys.exc_info()[0])
+            exc_type, exc_obj, exc_tb = sys.exc_info()
+            print(exc_type, exc_tb.tb_lineno)
             return
 
         for item in items:
@@ -792,7 +798,6 @@ class episodes:
                 pass
 
         itemlist = itemlist[::-1]
-
         return itemlist
 
 
